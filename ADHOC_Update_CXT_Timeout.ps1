@@ -46,7 +46,7 @@ else
 
 
 #reading servers in server lis
-$servers = Get-content $serverList
+$servers = @(Get-content $serverList)
 
 #User Credntials
 $cred = "$env:USERDOMAIN\$env:USERNAME"
@@ -81,11 +81,11 @@ if(Test-Path $dir){
 
     } else {
        Write-Host $dir ' was not found' -ForegroundColor Yellow
-    }else{
+    }
+}else{
        Write-Host 'McKesson.TPP.DTO.Configurations.RuleEngineSettings_OOTB already exist. Please remove file and try again.' -ForegroundColor Yellow
        break
-    }
-} 
+}
 
 #Modify McKesson.TPP.DTO.Configurations.RuleEngineSettings.xml <d2p1:Value>20</d2p1:Value> to <d2p1:Value>120</d2p1:Value>
 $xmlFile = "D:\CXT\totalpayment\Data\McKesson.TPP.DTO.Configurations.RuleEngineSettings.xml"
@@ -105,11 +105,21 @@ $nodeToSelect = "x:RuleEngineSettings/x:Settings/a:KeyValueOfstringstring"
 $Xmlnodes = $xmlData.SelectNodes($nodeToSelect, $nsmgr)
 $Xmlnode = $Xmlnodes | Where-Object {$_.Key -eq "timeout_interval"}
 
-$Xmlnode.Value = "120"
+try{
+    $Xmlnode.Value = "120"
 
-$xmlData.Save($xmlFile)
+    $xmlData.Save($xmlFile)
 
-Write-Host "Timeout Interval Successfully Updated." -ForegroundColor Green
+    Write-Host "Timeout Interval Successfully Updated." -ForegroundColor Green
+}
+catch{
+
+    $ErrorMessage = $Error[0].Exception.Message
+    Write-Host "Updating Timeout Interval Failed - $Error"
+
+}
+
+
 
 }
 #Close session#>
