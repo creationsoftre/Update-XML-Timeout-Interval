@@ -1,4 +1,14 @@
-﻿
+﻿<###############################
+Title: Update ClaimsXten Timeout Interval
+Author: TW
+Original: 2022_02_27
+Last Updated: 2022_02_27
+	
+
+Overview:
+- Update ClaimsXten Timeout Interval to 120 to prevent NCCI Market errors.
+- Script no longer needed after R59 (2/1) as this change is now hard coded into the custom release.
+###############################>
 
 # Show an Open File Dialog and return the file selected by the user.
 function Read-OpenFileDialog([string]$WindowTitle, [string]$InitialDirectory, [string]$Filter = "All files (*.*)|*.*", [switch]$AllowMultiSelect)
@@ -60,8 +70,8 @@ $sessions = New-PSSession -ComputerName $servers -Credential $userCredentials
 #Perform the folllowing steps on each server
 Invoke-Command -Session $sessions {
 #User Variables 
-$origPath = 'D:\CXT\totalpayment\Data\McKesson.TPP.DTO.Configurations.RuleEngineSettings.xml'
-$ootbPath = 'D:\CXT\totalpayment\Data\McKesson.TPP.DTO.Configurations.RuleEngineSettings_OOTB.xml'
+$origPath = 'PATH\McKesson.TPP.DTO.Configurations.RuleEngineSettings.xml'
+$ootbPath = 'PATH\\McKesson.TPP.DTO.Configurations.RuleEngineSettings_OOTB.xml'
 $dir = 'D:\CXT\totalpayment\Data\'
 
 if(Test-Path $dir){
